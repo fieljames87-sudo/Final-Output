@@ -3,6 +3,7 @@
 @section('title', 'Add Facility')
 
 @section('content')
+
 <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
 
     <h1 class="text-3xl font-bold mb-6">
@@ -27,6 +28,7 @@
     >
         @csrf
 
+        {{-- Facility Name --}}
         <div>
             <label class="block mb-2 font-semibold">
                 Facility Name
@@ -36,11 +38,13 @@
                 type="text"
                 name="name"
                 value="{{ old('name') }}"
-                class="w-full border border-gray-300 p-3 rounded-lg"
+                class="w-full border border-gray-300 rounded-lg p-3"
+                placeholder="Enter facility name"
                 required
             >
         </div>
 
+        {{-- Description --}}
         <div>
             <label class="block mb-2 font-semibold">
                 Description
@@ -49,10 +53,12 @@
             <textarea
                 name="description"
                 rows="4"
-                class="w-full border border-gray-300 p-3 rounded-lg"
+                class="w-full border border-gray-300 rounded-lg p-3"
+                placeholder="Enter facility description"
             >{{ old('description') }}</textarea>
         </div>
 
+        {{-- Capacity --}}
         <div>
             <label class="block mb-2 font-semibold">
                 Capacity
@@ -63,10 +69,49 @@
                 name="capacity"
                 value="{{ old('capacity') }}"
                 min="1"
-                class="w-full border border-gray-300 p-3 rounded-lg"
+                class="w-full border border-gray-300 rounded-lg p-3"
+                placeholder="Enter maximum capacity"
             >
         </div>
 
+        {{-- Status --}}
+        <div>
+            <label class="block mb-2 font-semibold">
+                Status
+            </label>
+
+            <select
+                name="status"
+                class="w-full border border-gray-300 rounded-lg p-3"
+                required
+            >
+                <option value="">-- Select Status --</option>
+
+                <option
+                    value="available"
+                    {{ old('status') == 'available' ? 'selected' : '' }}
+                >
+                    Available
+                </option>
+
+                <option
+                    value="unavailable"
+                    {{ old('status') == 'unavailable' ? 'selected' : '' }}
+                >
+                    Unavailable
+                </option>
+
+                <option
+                    value="under-maintenance"
+                    {{ old('status') == 'under-maintenance' ? 'selected' : '' }}
+                >
+                    Under Maintenance
+                </option>
+
+            </select>
+        </div>
+
+        {{-- Facility Image --}}
         <div>
             <label class="block mb-2 font-semibold">
                 Facility Image
@@ -75,27 +120,28 @@
             <input
                 type="file"
                 name="image"
-                accept="image/*"
-                class="w-full border border-gray-300 p-3 rounded-lg"
+                accept="image/jpeg,image/png,image/webp"
+                class="w-full border border-gray-300 rounded-lg p-3"
             >
 
             <p class="text-sm text-gray-500 mt-2">
-                Accepted formats: JPG, JPEG, PNG, and WebP.
+                Accepted formats: JPG, JPEG, PNG, and WebP (Maximum: 5MB).
             </p>
         </div>
 
+        {{-- Buttons --}}
         <div class="flex gap-3">
 
             <button
                 type="submit"
-                class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold"
+                class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition"
             >
                 Save Facility
             </button>
 
             <a
                 href="{{ route('facilities.index') }}"
-                class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 font-semibold"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold transition"
             >
                 Cancel
             </a>
@@ -105,4 +151,5 @@
     </form>
 
 </div>
+
 @endsection

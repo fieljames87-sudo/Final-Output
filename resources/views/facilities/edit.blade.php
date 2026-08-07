@@ -3,6 +3,7 @@
 @section('title', 'Edit Facility')
 
 @section('content')
+
 <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
 
     <h1 class="text-3xl font-bold mb-6">
@@ -29,7 +30,6 @@
         @csrf
         @method('PUT')
 
-        {{-- Facility Name --}}
         <div>
             <label class="block mb-2 font-semibold">
                 Facility Name
@@ -44,7 +44,6 @@
             >
         </div>
 
-        {{-- Description --}}
         <div>
             <label class="block mb-2 font-semibold">
                 Description
@@ -54,11 +53,9 @@
                 name="description"
                 rows="4"
                 class="w-full border rounded-lg p-3"
-                required
             >{{ old('description', $facility->description) }}</textarea>
         </div>
 
-        {{-- Capacity --}}
         <div>
             <label class="block mb-2 font-semibold">
                 Capacity
@@ -68,14 +65,45 @@
                 type="number"
                 name="capacity"
                 value="{{ old('capacity', $facility->capacity) }}"
+                min="1"
                 class="w-full border rounded-lg p-3"
-                required
             >
         </div>
 
-        {{-- Current Image --}}
         <div>
+            <label class="block mb-2 font-semibold">
+                Status
+            </label>
 
+            <select
+                name="status"
+                class="w-full border rounded-lg p-3"
+                required
+            >
+                <option
+                    value="available"
+                    {{ old('status', $facility->status) === 'available' ? 'selected' : '' }}
+                >
+                    Available
+                </option>
+
+                <option
+                    value="unavailable"
+                    {{ old('status', $facility->status) === 'unavailable' ? 'selected' : '' }}
+                >
+                    Unavailable
+                </option>
+
+                <option
+                    value="under-maintenance"
+                    {{ old('status', $facility->status) === 'under-maintenance' ? 'selected' : '' }}
+                >
+                    Under Maintenance
+                </option>
+            </select>
+        </div>
+
+        <div>
             <label class="block mb-2 font-semibold">
                 Current Facility Image
             </label>
@@ -83,7 +111,8 @@
             @if($facility->image)
 
                 <img
-                    src="{{ asset('storage/'.$facility->image) }}"
+                    src="{{ asset('storage/' . $facility->image) }}"
+                    alt="{{ $facility->name }}"
                     class="w-full h-64 object-cover rounded-xl mb-4 border"
                 >
 
@@ -94,12 +123,9 @@
                 </div>
 
             @endif
-
         </div>
 
-        {{-- Upload New Image --}}
         <div>
-
             <label class="block mb-2 font-semibold">
                 Replace Image
             </label>
@@ -107,29 +133,27 @@
             <input
                 type="file"
                 name="image"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp"
                 class="w-full border rounded-lg p-3"
             >
 
-            <small class="text-gray-500">
-                Leave blank if you don't want to change the current image.
-            </small>
-
+            <p class="text-sm text-gray-500 mt-2">
+                Leave blank to keep the current image.
+            </p>
         </div>
 
-        {{-- Buttons --}}
         <div class="flex gap-3">
 
             <button
                 type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold"
             >
                 Update Facility
             </button>
 
             <a
                 href="{{ route('facilities.index') }}"
-                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg"
+                class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold"
             >
                 Cancel
             </a>
@@ -139,4 +163,5 @@
     </form>
 
 </div>
+
 @endsection

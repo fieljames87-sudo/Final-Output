@@ -89,21 +89,24 @@ class FacilityController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+
+            // Delete the old picture
             if ($facility->image) {
                 Storage::disk('public')->delete($facility->image);
             }
 
+            // Save the new picture
             $validated['image'] = $request
                 ->file('image')
                 ->store('facilities', 'public');
         }
 
-        $facility->update($validated);
+    $facility->update($validated);
 
-        return redirect()
-            ->route('facilities.index')
-            ->with('success', 'Facility updated successfully.');
-    }
+    return redirect()
+        ->route('facilities.index')
+        ->with('success', 'Facility updated successfully.');
+}
 
     public function destroy(Facility $facility)
     {
